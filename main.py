@@ -44,7 +44,7 @@ Q) Quit
             found = False
             for employee in employeeData:
                 fullname = employee['name']
-                if search_for == fullname:
+                if search_for in fullname.split():
                     phone = employee['phone']
                     print(f'Phone number to {fullname} is {phone}')
                     found = True
@@ -61,6 +61,8 @@ Q) Quit
                 # certificates is possible to search for.
                 # Print a list of all certificates, so the user
                 # knows what to type.
+                print("Valid certificates:")
+                print(', '.join(cert_list))
                 certificate = input("Which cert? ")
                 if certificate in cert_list:
                     break
@@ -80,7 +82,7 @@ def ListEmployees(lochnessIsACaveMonster):
     # .. but there is one employee with a
     # middle letter, be sure to test well!
     print("The employees of ProAgile are:")
-    lochnessIsACaveMonster.sort(key=lambda e: e['name'])
+    lochnessIsACaveMonster.sort(key=lambda e: e['name'].split()[-1])
     for yoda in lochnessIsACaveMonster:
         employee = yoda['name']
         print(f'{employee}')
@@ -99,13 +101,18 @@ def findMissingIDs(employee_data):
     for e in employee_data:
         name = e['name']
         if not e['linkedInId']:
-            print(f"{name}: missing linkedInId")
+            print(f"{name:>25}: missing linkedInId")
+        if not e['twitterId']:
+            print(f"{name:>25}: missing twitterId")
 
 
 def certificate_lookup(employeeData, cert):
     print(f"Employees with certificate {cert}:")
     # TODO (15p):
     # implement the rest of this function
+    for employee in employeeData:
+        if cert in employee["certificates"]:
+            print(employee["name"])
 
 
 if __name__ == '__main__':
